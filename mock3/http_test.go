@@ -15,8 +15,10 @@ func TestLogin(t *testing.T) {
 
 	m := NewMockUser(ctrl)
 
-	m.EXPECT().Login(gomock.Eq(1)).Return(nil, errors.New("not exist")).Times(1)
-	m.EXPECT().Login(gomock.Eq(2)).Return(nil, nil).Times(1)
+	a1 := m.EXPECT().Login(gomock.Eq(1)).Return(nil, errors.New("not exist")).Times(1)
+	a2 := m.EXPECT().Login(gomock.Eq(2)).Return(nil, nil).Times(1)
+
+	gomock.InOrder(a1, a2)
 
 	a, b := UserLogin(m, 1)
 	fmt.Println(1, a, b)
